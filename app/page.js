@@ -1,95 +1,223 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [stage, setStage] = useState('initializing');
+  const [progress, setProgress] = useState(0);
+  const [flashText, setFlashText] = useState('');
+  const [countdown, setCountdown] = useState(null);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
+  useEffect(() => {
+    // Disable right-click
+    const disableRightClick = (e) => {
+      e.preventDefault();
+      alert('Right-click is disabled to protect this website.');
+    };
+    document.addEventListener('contextmenu', disableRightClick);
+  
+    // Detect developer tools (not foolproof)
+    const detectDevTools = () => {
+      const threshold = 160;
+      if (
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+      ) {
+        alert('Developer tools detected. Access is restricted.');
+        window.location.reload(); // Reload to discourage debugging
+      }
+    };
+    window.addEventListener('resize', detectDevTools);
+  
+    return () => {
+      document.removeEventListener('contextmenu', disableRightClick);
+      window.removeEventListener('resize', detectDevTools);
+    };
+  }, []);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  const lines = [
+    'AWAKENING THE SHADOW CIRCLE...',
+    'UNVEILING ANCIENT SIGILS...',
+    'THE ELDER VEIL STIRS...',
+    'WHISPERS OF THE FORGOTTEN CULT...',
+    'ALIGNING THE CRIMSON STARS...',
+    'SUMMONING ETHEREAL GUARDIANS...',
+    'THE VOID CHANT BEGINS...',
+    'UNBINDING THE SACRED RUNES...',
+    'THE OBSIDIAN GATE CREAKS...',
+    'SHADOWS BIND THE ETERNAL PACT...',
+    'THE BLOOD OATH IS SEALED...',
+    'ARCANE THREADS WEAVE TIGHT...',
+    'THE DREAD ORACLE AWAKENS...',
+    'CRYPTIC TOMES UNRAVEL...',
+    'THE EYE OF KHALDAR OPENS...',
+    'SHROUDED PROPHECIES IGNITE...',
+    'THE RAVEN CIRCLE CONVERGES...',
+    'VEILED SISTERS CHANT IN UNISON...',
+    'THE ABYSSAL THRONE RUMBLES...',
+    'FORBIDDEN KNOWLEDGE UNLEASHED...',
+    'THE SEVENTH SEAL BREAKS...',
+    'THE CULT OF ZETHAR RISES...',
+    'DARK FLAMES ILLUMINATE THE PATH...',
+    'THE FINAL RITE COMMENCES...',
+    'ENTER THE INNER SANCTUM...',
+  ];
+
+  useEffect(() => {
+    if (stage === 'initializing') {
+      const container = document.getElementById('typewriter');
+      let lineIndex = 0;
+      const totalTime = 3000; // 3s total
+      const intervalTime = totalTime / lines.length; // ~120ms per line
+
+      function showLine() {
+        if (lineIndex < lines.length) {
+          const lineElement = document.createElement('p');
+          lineElement.className = 'typewriter-line';
+          lineElement.textContent = lines[lineIndex];
+          lineElement.style.animationDelay = `${lineIndex * intervalTime}ms`;
+          container.appendChild(lineElement);
+          lineIndex++;
+          setTimeout(showLine, intervalTime);
+        } else {
+          setTimeout(() => {
+            setStage('loading');
+          }, 500);
+        }
+      }
+
+      showLine();
+    }
+
+    if (stage === 'loading') {
+      let countdownStarted = false;
+
+      const progressInterval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            if (!countdownStarted) {
+              countdownStarted = true;
+              setCountdown(5);
+              const countdownInterval = setInterval(() => {
+                setCountdown((prev) => {
+                  if (prev <= 1) {
+                    clearInterval(countdownInterval);
+                    clearInterval(progressInterval);
+                    setStage('password'); // Redirect after countdown
+                    return null;
+                  }
+                  return prev - 1;
+                });
+              }, 1000);
+            }
+            return 100;
+          }
+          return prev + (100 / 7000) * 10; // 7s total
+        });
+      }, 10);
+
+      const flashMessages = [
+        'THE SHADOW WHISPERS...',
+        'BLOOD BINDS US...',
+        'THE VEIL THINS...',
+        'SECRETS UNRAVEL...',
+        'THE RAVEN WATCHES...',
+        'ETERNAL OATHS ECHO...',
+      ];
+
+      let flashIndex = 0;
+      const flashInterval = setInterval(() => {
+        // Show flash texts while progress < 100%
+        if (progress < 100 && flashIndex < flashMessages.length) {
+          setFlashText(flashMessages[flashIndex]);
+          setTimeout(() => setFlashText(''), 700);
+          flashIndex++;
+        } else if (progress < 100 && flashIndex >= flashMessages.length) {
+          flashIndex = 0; // Loop flash messages
+        } else {
+          clearInterval(flashInterval);
+        }
+      }, 800);
+
+      return () => {
+        clearInterval(progressInterval);
+        clearInterval(flashInterval);
+      };
+    }
+  }, [stage]);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    setError('Wrong Password');
+    setPassword('');
+  };
+
+  // Calculate number of filled blocks (10 blocks total, 10% each)
+  const filledBlocks = Math.floor(progress / 10);
+
+  return (
+    <div className="min-h-screen">
+      {stage === 'initializing' && (
+        <div className="absolute top-0 left-0 pt-6 pl-6 sm:pt-8 sm:pl-8 w-full">
+          <div id="typewriter" className="text-left"></div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      )}
+
+      {stage === 'loading' && (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="loading-box flex flex-col items-center space-y-6">
+            <h1 className="loading-title">ARCANUM V0.01</h1>
+            <div className="progress-container">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div
+                  key={index}
+                  className={`progress-block ${index < filledBlocks ? 'filled' : ''}`}
+                />
+              ))}
+            </div>
+            <div className="min-h-[24px] w-full">
+              {(flashText || countdown !== null) && (
+                <p className={countdown !== null ? 'countdown-text' : 'flash-text'}>
+                  {countdown !== null ? (
+                    <>
+                      Opening in <span className="countdown-number">{countdown}</span> second
+                      {countdown !== 1 ? 's' : ''}...
+                    </>
+                  ) : (
+                    flashText
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {stage === 'password' && (
+        <div className="password-container flex items-center justify-center">
+          <div>
+            <img
+              src="/arcanum.png" // Updated to .png
+              alt="Arcanum Text"
+              className="password-text-image"
+              style={{ maxWidth: '400px' }}
+            />
+            <form onSubmit={handlePasswordSubmit} className="flex flex-col items-center">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="password-input"
+                placeholder="ENTER PASSWORD"
+                style={{ width: '220px', height: '45px' }}
+              />
+              {error && <p className="password-error">{error}</p>}
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
