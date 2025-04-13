@@ -196,26 +196,22 @@ export default function Home() {
       )}
 
       {stage === 'password' && (
-        <div className="password-container flex items-center justify-center">
-          <div>
-            <img
-              src="/arcanum.png" // Updated to .png
-              alt="Arcanum Text"
-              className="password-text-image"
-              style={{ maxWidth: '400px' }}
+        <div className="password-container">
+          <img
+            src="/arcanum-2.png"
+            alt="Arcanum Text"
+            className="password-text-image"
+          />
+          <form onSubmit={handlePasswordSubmit} className="password-input-container">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="password-input"
+              placeholder="ENTER PASSWORD"
             />
-            <form onSubmit={handlePasswordSubmit} className="flex flex-col items-center">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="password-input"
-                placeholder="ENTER PASSWORD"
-                style={{ width: '220px', height: '45px' }}
-              />
-              {error && <p className="password-error">{error}</p>}
-            </form>
-          </div>
+            {error && <p className="password-error">{error}</p>}
+          </form>
         </div>
       )}
     </div>
