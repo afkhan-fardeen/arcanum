@@ -9,7 +9,11 @@ export default function Home() {
   const [countdown, setCountdown] = useState(null);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
+  const [checking, setChecking] = useState(false); // New state for checking password
+  const [checkProgress, setCheckProgress] = useState(0); // Progress for mini progress bar
+  const [message, setMessage] = useState(''); // Message state for "Correct Password"
+  const [finalMessage, setFinalMessage] = useState(''); // Final dramatic message
+
   useEffect(() => {
     // Disable right-click
     const disableRightClick = (e) => {
@@ -17,7 +21,7 @@ export default function Home() {
       alert('Right-click is disabled to protect this website.');
     };
     document.addEventListener('contextmenu', disableRightClick);
-  
+
     // Detect developer tools (not foolproof)
     const detectDevTools = () => {
       const threshold = 160;
@@ -30,7 +34,7 @@ export default function Home() {
       }
     };
     window.addEventListener('resize', detectDevTools);
-  
+
     return () => {
       document.removeEventListener('contextmenu', disableRightClick);
       window.removeEventListener('resize', detectDevTools);
@@ -148,14 +152,59 @@ export default function Home() {
     }
   }, [stage]);
 
+  // Handle mini progress bar animation during password check
+  useEffect(() => {
+    if (checking) {
+      const progressInterval = setInterval(() => {
+        setCheckProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(progressInterval);
+            return 100;
+          }
+          return prev + (100 / 2000) * 10; // 2s total for check progress
+        });
+      }, 10);
+
+      return () => clearInterval(progressInterval);
+    }
+  }, [checking]);
+
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    setError('Wrong Password');
-    setPassword('');
+    setError('');
+    setMessage('');
+    setFinalMessage('');
+
+    if (password === 'S1l#nt') {
+      // Start checking phase
+      setChecking(true);
+
+      // After 2 seconds of checking, show "Correct Password"
+      setTimeout(() => {
+        setChecking(false);
+        setCheckProgress(0);
+        setMessage('Correct Password');
+
+        // After 1 second, show the final dramatic message
+        setTimeout(() => {
+          setMessage('');
+          setFinalMessage('You will now learn the secrets of अ.');
+
+          // After 2 seconds, redirect
+          setTimeout(() => {
+            window.location.href = 'https://arcanum-3.gitbook.io/arcanum';
+          }, 2000);
+        }, 1000);
+      }, 2000);
+    } else {
+      setError('Wrong Password');
+      setPassword('');
+    }
   };
 
   // Calculate number of filled blocks (10 blocks total, 10% each)
   const filledBlocks = Math.floor(progress / 10);
+  const checkFilledBlocks = Math.floor(checkProgress / 20); // 5 blocks for mini progress bar
 
   return (
     <div className="min-h-screen">
@@ -209,8 +258,32 @@ export default function Home() {
               onChange={(e) => setPassword(e.target.value)}
               className="password-input"
               placeholder="ENTER PASSWORD"
+              disabled={checking} // Disable input while checking
             />
+            {checking && (
+              <div className="mt-2">
+                <p className="text-center text-red-600 font-almendra text-sm">
+                  Checking password...
+                </p>
+                <div className="flex justify-center mt-1">
+                  <div className="mini-progress-container">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className={`mini-progress-block ${index < checkFilledBlocks ? 'filled' : ''}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
             {error && <p className="password-error">{error}</p>}
+            {message && <p className="password-message">{message}</p>}
+            {finalMessage && (
+              <p className="final-message">
+                You will now learn the secrets of <span className="a-symbol">अ</span>.
+              </p>
+            )}
           </form>
         </div>
       )}
