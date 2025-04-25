@@ -175,7 +175,7 @@ export default function Home() {
     setMessage('');
     setFinalMessage('');
 
-    if (password === 'S1l#nt') {
+    if (password === 'cult') {
       // Start checking phase
       setChecking(true);
 
