@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   const [stage, setStage] = useState('initializing');
@@ -203,14 +204,9 @@ export default function Home() {
               >
                 GitBook
               </a>
-              <a
-                href="https://forms.gle/your-google-form-link" // Replace with your Google Form link
-                target="_blank"
-                rel="noopener noreferrer"
-                className="arc-button"
-              >
-                Apply <span className="dollar-sign">$</span><span className="golden-glow">ARCAN</span> Pre-Sale
-              </a>
+              <Link href="/form" className="arc-button">
+                Apply <span className="dollar-sign">$</span><span className="golden-glow">ARCANUM</span> Pre-Sale
+              </Link>
             </div>
           </div>
         </div>
