@@ -34,10 +34,12 @@ export default function Form() {
         setMessage('Submission successful! Thank you for applying.');
         event.target.reset();
       } else {
-        setMessage(result.error || 'Submission failed. Please try again.');
+        console.error('Form submission error:', result);
+        setMessage(`Submission failed: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      setMessage('Error submitting form. Please try again.');
+      console.error('Form submission fetch error:', error);
+      setMessage(`Error submitting form: ${error.message || 'Please try again'}`);
     } finally {
       setIsSubmitting(false);
     }

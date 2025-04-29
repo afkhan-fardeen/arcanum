@@ -32,13 +32,13 @@ export async function POST(req) {
       ]);
 
     if (error) {
-      console.error('Supabase error:', error);
-      return NextResponse.json({ error: 'Failed to save submission' }, { status: 500 });
+      console.error('Supabase insert error:', error);
+      return NextResponse.json({ error: 'Failed to save submission: ' + error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ message: 'Submission successful' });
+    return NextResponse.json({ message: 'Submission successful' }, { status: 200 });
   } catch (error) {
-    console.error('Submission error:', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    console.error('Submission endpoint error:', error);
+    return NextResponse.json({ error: 'Server error: ' + error.message }, { status: 500 });
   }
 }
