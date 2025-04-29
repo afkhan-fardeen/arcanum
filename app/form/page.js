@@ -29,8 +29,31 @@ export default function Form() {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-      if (response.ok) {
+      // Check if response is OK and has content
+      if (!response.ok) {
+        const text = await response.text();
+        console.error('Form submission failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          responseText: text,
+        });
+        throw new Error(`HTTP error ${response.status}: ${text || response.statusText}`);
+      }
+
+      // Attempt to parse JSON
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        const text = await response.text();
+        console.error('Failed to parse JSON response:', {
+          error: jsonError.message,
+          responseText: text,
+        });
+        throw new Error('Invalid server response: Unexpected end of JSON input');
+      }
+
+      if (result.message) {
         setMessage('Submission successful! Thank you for applying.');
         event.target.reset();
       } else {
