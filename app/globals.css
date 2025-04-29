@@ -210,3 +210,43 @@ html, body {
     text-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
   }
 }
+
+/* Add to your existing CSS */
+.arc-button {
+  display: inline-block;
+  padding: 8px 12px;
+  font-family: 'Almendra', serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #d4d4d4;
+  background-color: #3d2525; /* Matches password input background */
+  border: 1px solid #8b0000; /* Matches password input border */
+  border-radius: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: 220px; /* Matches password input width */
+  height: 45px; /* Matches password input height */
+  line-height: 27px; /* Vertically center text */
+  filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.3));
+}
+
+.arc-button:hover {
+  border-color: #ff4500; /* Matches password input focus border */
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5); /* Matches password input focus glow */
+  transform: translateY(-2px); /* Subtle lift */
+  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.5));
+}
+
+.arc-button:active {
+  transform: translateY(0); /* Reset lift on click */
+  box-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
+  filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.3));
+}
+
+/* Ensure buttons are centered in the password-input-container */
+.password-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
