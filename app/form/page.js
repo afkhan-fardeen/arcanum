@@ -29,7 +29,7 @@ export default function Form() {
         body: JSON.stringify(data),
       });
 
-      // Check if response is OK and has content
+      // Check if response is OK
       if (!response.ok) {
         const text = await response.text();
         console.error('Form submission failed:', {
@@ -37,10 +37,16 @@ export default function Form() {
           statusText: response.statusText,
           responseText: text,
         });
+        if (response.status === 405) {
+          throw new Error('Method not allowed: The server does not support POST requests for this endpoint');
+        }
+        if (response.status === 500) {
+          throw new Error('Server error: The server encountered an issue processing the request');
+        }
         throw new Error(`HTTP error ${response.status}: ${text || response.statusText}`);
       }
 
-      // Attempt to parse JSON
+      // Parse JSON response
       let result;
       try {
         result = await response.json();

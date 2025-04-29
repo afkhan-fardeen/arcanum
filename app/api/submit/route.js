@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabase } from '../../../lib/supabase';
 
 export async function POST(req) {
+  console.log('POST request received at /api/submit');
   try {
     // Check if request body is valid
     const bodyText = await req.text();
@@ -40,6 +41,7 @@ export async function POST(req) {
     }
 
     // Insert submission into Supabase
+    console.log('Attempting to insert submission into Supabase:', data);
     const { error } = await supabase
       .from('submissions')
       .insert([
@@ -56,6 +58,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Failed to save submission: ' + error.message }, { status: 500 });
     }
 
+    console.log('Submission successful');
     return NextResponse.json({ message: 'Submission successful' }, { status: 200 });
   } catch (error) {
     console.error('Submission endpoint error:', error);
