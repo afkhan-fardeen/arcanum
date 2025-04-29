@@ -212,7 +212,7 @@ html, body {
     transform: translateY(-50%);
   }
   .arc-button {
-    width: 90%;
+    width: 100%;
     max-width: 320px;
     font-size: 14px;
     padding: 6px 10px;
