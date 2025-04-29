@@ -1,3 +1,4 @@
+/* Existing CSS (provided previously, included for context) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,7 +56,7 @@ html, body {
   @apply text-gold;
 }
 
-/* Password */
+/* Password/Button Container */
 .password-container {
   @apply min-h-screen bg-no-repeat bg-center opacity-0 relative;
   background-image: url('/password-bg.jpeg');
@@ -69,7 +70,7 @@ html, body {
 }
 
 .password-text-image {
-  margin-top: 60px; /* Space from the top */
+  margin-top: 60px;
   max-width: 400px;
   filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
   animation: mysticPulse 4s ease-in-out infinite;
@@ -77,7 +78,7 @@ html, body {
 
 .password-input-container {
   position: absolute;
-  top: 80%; /* 20% above the bottom */
+  top: 80%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -85,39 +86,43 @@ html, body {
   width: 100%;
 }
 
-.password-input {
-  background-color: #3d2525;
-  border: 1px solid #8b0000;
-  border-radius: 10px;
+/* Button Styles */
+.arc-button {
+  display: inline-block;
   padding: 8px 12px;
   font-family: 'Almendra', serif;
   font-size: 16px;
   letter-spacing: 1px;
   color: #d4d4d4;
+  background-color: #3d2525;
+  border: 1px solid #8b0000;
+  border-radius: 10px;
   text-align: center;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  width: 220px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: 260px; /* Increased width for both buttons */
   height: 45px;
+  line-height: 27px;
+  filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.3));
 }
 
-.password-input::placeholder {
-  color: #666;
-  opacity: 1;
-}
-
-.password-input:focus {
+.arc-button:hover {
   border-color: #ff4500;
   box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.5));
 }
 
-.password-error {
-  margin-top: 8px;
-  color: #dc2626;
-  font-size: 16px;
-  font-family: 'Almendra', serif;
-  letter-spacing: 0.5px;
-  filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.7));
+.arc-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
+  filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.3));
+}
+
+.dollar-sign {
+  font-size: 20px; /* Larger $ symbol */
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Animations */
@@ -186,7 +191,7 @@ html, body {
   }
   .password-container {
     padding: 16px 0;
-    background-image: url('/mobile-bg.jpg'); /* Use mobile-bg.jpg for mobile */
+    background-image: url('/mobile-bg.jpg');
     background-size: cover;
     background-position: center;
   }
@@ -195,58 +200,17 @@ html, body {
     margin-top: 80px;
   }
   .password-input-container {
-    top: 70%; /* As per the provided CSS */
+    top: 70%;
     transform: translateY(-50%);
   }
-  .password-input {
+  .arc-button {
     width: 75%;
     font-size: 14px;
     padding: 6px 10px;
+    height: 40px;
+    line-height: 26px;
   }
-  .password-error {
-    font-size: 14px;
+  .dollar-sign {
+    font-size: 18px; /* Slightly smaller on mobile */
   }
-  .typewriter-line {
-    text-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
-  }
-}
-
-/* Add to your existing CSS */
-.arc-button {
-  display: inline-block;
-  padding: 8px 12px;
-  font-family: 'Almendra', serif;
-  font-size: 16px;
-  letter-spacing: 1px;
-  color: #d4d4d4;
-  background-color: #3d2525; /* Matches password input background */
-  border: 1px solid #8b0000; /* Matches password input border */
-  border-radius: 10px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  width: 220px; /* Matches password input width */
-  height: 45px; /* Matches password input height */
-  line-height: 27px; /* Vertically center text */
-  filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.3));
-}
-
-.arc-button:hover {
-  border-color: #ff4500; /* Matches password input focus border */
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5); /* Matches password input focus glow */
-  transform: translateY(-2px); /* Subtle lift */
-  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.5));
-}
-
-.arc-button:active {
-  transform: translateY(0); /* Reset lift on click */
-  box-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
-  filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.3));
-}
-
-/* Ensure buttons are centered in the password-input-container */
-.password-input-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

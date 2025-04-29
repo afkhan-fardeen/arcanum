@@ -209,7 +209,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="arc-button"
               >
-                Pre-Sale Form
+                Apply <span className="dollar-sign">$</span>ARCANUM Pre-Sale
               </a>
             </div>
           </div>
