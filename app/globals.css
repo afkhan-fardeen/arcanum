@@ -119,7 +119,16 @@ html, body {
 }
 
 .dollar-sign {
-  font-size: 20px;
+  font-size: 20px; /* Larger $ for prominence */
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5); /* Golden glow */
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateY(-1px); /* Fine-tune vertical alignment */
+}
+
+.golden-glow {
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);
+  color: #d4d4d4; /* Maintain base text color, glow provides gold effect */
   display: inline-block;
   vertical-align: middle;
 }
@@ -203,14 +212,20 @@ html, body {
     transform: translateY(-50%);
   }
   .arc-button {
-    width: 100%; /* Even wider buttons for mobile */
-    max-width: 320px; /* Prevent overflow on small screens */
+    width: 90%;
+    max-width: 320px;
     font-size: 14px;
     padding: 6px 10px;
     height: 40px;
     line-height: 26px;
   }
   .dollar-sign {
-    font-size: 18px;
+    font-size: 18px; /* Larger $ for mobile */
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.7), 0 0 8px rgba(255, 215, 0, 0.4); /* Golden glow for mobile */
+    transform: translateY(-0.5px); /* Fine-tune mobile alignment */
+  }
+  .golden-glow {
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.7), 0 0 8px rgba(255, 215, 0, 0.4);
+    font-size: 14px; /* Match button text size */
   }
 }
