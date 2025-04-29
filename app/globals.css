@@ -471,3 +471,16 @@ html, body {
     font-size: 12px;
   }
 }
+
+.form-link {
+  color: #ff4500;
+  text-decoration: none;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.form-link:hover {
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+  text-decoration: underline;
+}

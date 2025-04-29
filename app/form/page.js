@@ -29,7 +29,6 @@ export default function Form() {
         body: JSON.stringify(data),
       });
 
-      // Check if response is OK
       if (!response.ok) {
         const text = await response.text();
         console.error('Form submission failed:', {
@@ -46,7 +45,6 @@ export default function Form() {
         throw new Error(`HTTP error ${response.status}: ${text || response.statusText}`);
       }
 
-      // Parse JSON response
       let result;
       try {
         result = await response.json();
@@ -86,12 +84,22 @@ export default function Form() {
       <div className="form-input-container">
         <h2 className="form-title">$ARCAN Pre-Sale Application</h2>
         <p className="form-description">
-          Thank you for your interest in ARCANUM. This form is your gateway to becoming one of only 350 holders of a Relic Key — the only way to access our token presale and unlock lifetime entry into the cult.
+          Thank you for your interest in ARCANUM.<br />
+          This form is your gateway to becoming one of only 350 holders of a Relic Key — the only way to access our token presale and unlock lifetime entry into the cult.<br />
+          You are applying for a private allocation of the <strong>$ARCAN</strong> token through the Relic Keys.<br />
+          Selected individuals will receive direct contact from our official <a href="https://x.com/ArcanumCult" target="_blank" rel="noopener noreferrer" className="form-link">X</a> account (<a href="https://x.com/ArcanumCult" target="_blank" rel="noopener noreferrer" className="form-link">@ArcanumCult</a>) to confirm access.<br />
           <br />
           <strong>Pre-Sale Price:</strong> 1 SOL<br />
           <strong>Token Delivery:</strong> Full amount in $ARCAN at TGE<br />
-          No vesting. No delay.<br />
-          Only 350 total spots will be granted. Selected individuals will receive direct contact from our official X account (@ArcanumCult).
+          <strong>No vesting. No delay.</strong><br />
+          <br />
+          The Relic Keys unlocks forever access to all our Trading Tools...<br />
+          <br />
+          Only 350 total spots will be granted.<br />
+          If chosen, you’ll receive your token allocation + lifetime access to all tools.<br />
+          <br />
+          You can find more information in our <a href="https://discord.gg/arcanumcult" target="_blank" rel="noopener noreferrer" className="form-link">Discord</a> or <a href="https://arcanum-3.gitbook.io/arcanum" target="_blank" rel="noopener noreferrer" className="form-link">Gitbook</a>.<br />
+          Those selected will have a special role on <a href="https://discord.gg/arcanumcult" target="_blank" rel="noopener noreferrer" className="form-link">Discord</a> and private chat access.
         </p>
         <form className="form-content" onSubmit={handleSubmit}>
           <div className="form-field">
