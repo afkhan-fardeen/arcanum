@@ -201,7 +201,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="arc-button"
               >
-                Explore the Arcanum
+                GitBook
               </a>
               <a
                 href="https://forms.gle/your-google-form-link" // Replace with your Google Form link
@@ -209,7 +209,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="arc-button"
               >
-                Join the Circle
+                Pre-Sale Form
               </a>
             </div>
           </div>
